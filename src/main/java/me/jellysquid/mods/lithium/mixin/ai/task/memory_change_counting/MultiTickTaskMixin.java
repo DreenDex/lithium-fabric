@@ -8,7 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 
-@Mixin(Task.class)
-public class TaskMixin<E extends LivingEntity> {
+@Mixin(MultiTickTask.class)
+public class MultiTickTaskMixin<E extends LivingEntity> {
     @Mutable
     @Shadow
     @Final
@@ -38,7 +38,7 @@ public class TaskMixin<E extends LivingEntity> {
      * @author 2No2Name
      */
     @Overwrite
-    private boolean hasRequiredMemoryState(E entity) {
+    public boolean hasRequiredMemoryState(E entity) {
         Brain<?> brain = entity.getBrain();
         long modCount = ((MemoryModificationCounter) brain).getModCount();
         if (this.cachedMemoryModCount == modCount) {
